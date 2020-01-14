@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="utf-8">
+<title>创建商品</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+</head>
+
+<body>
+    <div class="content">
+            <div class="form sign-in">
+                <h2>创建商品</h2>
+                <label>
+                    <span>商品名</span>
+                    <input type="text" id="title"/>
+                </label>
+                <label>
+                    <span>商品描述</span>
+                    <input type="text" id="description" />
+                </label>
+            
+                <label>
+                    <span>商品价格</span>
+                    <input type="text" id="price"/>
+                </label>
+                
+                <label>
+                    <span>商品库存</span>
+                    <input type="text" id="stock"/>
+                </label>
+                
+                <label>
+                    <span>商品图片链接</span>
+                    <input type="text" id="imgUrl"/>
+                </label>
+
+                <button type="button" class="submit" id="create">创建商品</button>
+            </div>
+    </div>
+    <script>
+       $(document).ready(function(){
+        $("#create").click(function(){
+            var title = $("#title").val();
+            var description = $("#description").val();
+            var price = $("#price").val();
+            var stock = $("#stock").val();
+            var imgUrl = $("#imgUrl").val();
+            
+            if(title==null||title==""){
+                alert("title不能为空...");
+                return false;
+            };
+            
+            if(description==null||description==""){
+                alert("description不能为空...");
+                return false;
+            };
+            if(price==null||price==""){
+                alert("price不能为空...");
+                return false;
+            };
+            if(stock==null||stock==""){
+                alert("stock不能为空...");
+                return false;
+            };
+            if(imgUrl==null||imgUrl==""){
+                alert("age不能为空...");
+                return false;
+            };
+        
+           
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                url: "http://localhost:8081/item/create",
+                data:{
+                    "title": title,
+                    "description": description,
+                    "price": price,
+                    "stock": stock,
+                    "imgUrl": imgUrl
+                }, xhrFields:{
+                    withCredentials:true
+                },
+                success(data){
+                    if(data.status == "success"){
+                        alert("创建成功...")
+                    }else{
+                        alert("创建失败，原因是："+data.data.errMsg);
+                    }
+                },
+                fail(data){
+                    alert("创建失败，原因是："+data.responseText);
+                }
+            });
+        });
+    }); 
+    </script>
+</body>
+
+</html>

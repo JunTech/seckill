@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no-cache"> 
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <h2 style="text-align: center;">活动商品列表</h2>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                商品名
+                            </th>
+                            <th>
+                                商品图片
+                             </th>
+                            <th>
+                               商品价格
+                            </th>
+                            <th>
+                                商品库存
+                            </th>
+                            <th>
+                                商品描述
+                            </th>
+                            <th>
+                                商品销量
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="container">
+                        <!-- <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                TB - Monthly
+                            </td>
+                            <td>
+                                01/04/2012
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                TB - Monthly
+                            </td>
+                            <td>
+                                01/04/2012
+                            </td>
+                        </tr> -->
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<script>
+    var p_itemList=[];
+    $(document).ready(function(){
+        
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8081/item/list",
+            xhrFields:{
+                    withCredentials:true
+            },
+            success(data){
+                    if(data.status == "success"){
+                        // alert("查询列表成功...");
+                        p_itemList = data.data;
+                        reloadDom();
+                    }else{
+                        alert("查询列表失败，原因是："+data.data.errMsg);
+                    }
+            },
+            fail(data){
+                alert("查询列表失败，原因是："+data.responseText);
+            }
+        });
+    });
+    function reloadDom(){
+        for(var i=0;i<p_itemList.length;i++){
+            var itemVO = p_itemList[i];
+            // var dom = "<tr id='itemDetail'"+itemVO.id+"><td>"+itemVO.title+"</td><td><img src='"+itemVO.imgurl+"' height='100' width='100'/></td><td>"+itemVO.price+"</td><td>"+itemVO.stock+"</td><td>"+itemVO.description+"</td><td>"+itemVO.sales+"</td></tr>";
+            var dom = "<tr data-id='"+itemVO.id +"' id='itemDetail"+itemVO.id+"'><td>"+itemVO.title+"</td><td><img style= 'width:120px;height:auto;' src='"+itemVO.imgurl+"'/></td>"+"<td>"+itemVO.price+"</td><td>"+itemVO.stock+"</td><td>"+itemVO.description+"</td><td>"+itemVO.sales+"</td></tr>";
+            $("#container").append($(dom));
+
+            $("#itemDetail"+itemVO.id).on("click",function(e){
+                window.location.href="getitem.html?id="+$(this).data("id");
+            });
+        }
+    }
+
+    </script>
+</body>
+</html>

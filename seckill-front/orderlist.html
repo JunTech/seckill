@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no-cache"> 
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <h2 style="text-align: center;">订单列表</h2>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                商品名
+                            </th>
+                            <th>
+                               商品价格
+                            </th>
+                            <th>
+                                数量
+                             </th>
+                             <th>
+                                订单价格
+                             </th>
+                             <th>
+                                是否秒杀商品
+                             </th>
+                             <th>
+                                支付状态
+                             </th>
+                        </tr>
+                    </thead>
+                    <tbody id="container">    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button type="submit" value="点我支付" id="orderpay">点我支付</button>
+    </div>
+<script>
+    var p_itemList=[];
+    $(document).ready(function(){
+        
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8081/order/list",
+            xhrFields:{
+                    withCredentials:true
+            },
+            success(data){
+                    if(data.status == "success"){
+                        // alert("查询列表成功...");
+                        p_itemList = data.data;
+                        reloadDom();
+                    }else{
+                        alert("查询列表失败，原因是："+data.data.errMsg);
+                    }
+            },
+            fail(data){
+                alert("查询列表失败，原因是："+data.responseText);
+            }
+        });
+
+        $("#orderpay").click(function(){
+            alert("支付成功！");
+            window.location.href="file:///C:/Users/Ryan/Desktop/seckill-front/listItem.html";
+        });
+    });
+    function reloadDom(){
+        for(var i=0;i<p_itemList.length;i++){
+            var itemVO = p_itemList[i];
+            var paystate = '未支付';
+            var name;
+            var seckill_prod;
+            if(itemVO.itemId==3){
+                name = 'springboot全栈开发';
+            }
+            if(itemVO.seckillId!=0){
+                seckill_prod ='普通订单';
+            }else{
+                seckill_prod = '秒杀订单';
+            }
+            var dom = "<tr><td>"+name+"</td><td>"+itemVO.itemPrice+"</td><td>"+itemVO.amount+"</td><td>"+itemVO.orderPrice+"</td><td>"+seckill_prod+"</td><td>"+paystate+"</td></tr>";
+            // var dom = "<tr data-id='"+itemVO.id +"' id='itemDetail"+itemVO.id+"'><td>"+itemVO.title+"</td><td><img style= 'width:120px;height:auto;' src='"+itemVO.imgurl+"'/></td>"+"<td>"+itemVO.price+"</td><td>"+itemVO.stock+"</td><td>"+itemVO.description+"</td><td>"+itemVO.sales+"</td></tr>";
+            $("#container").append($(dom));
+
+            // $("#itemDetail"+itemVO.id).on("click",function(e){
+            //     window.location.href="getitem.html?id="+$(this).data("id");
+            // });
+        }
+    }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="utf-8">
+<title>注册</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+</head>
+
+<body>
+    <div class="content">
+            <div class="form sign-in">
+                <h2>立即注册</h2>
+                <label>
+                    <span>用户名</span>
+                    <input type="text" id="name"/>
+                </label>
+                <label>
+                    <span>手机号</span>
+                    <input type="text" id="telphone" />
+                </label>
+            
+                <label>
+                    <span>密码</span>
+                    <input type="password" id="password"/>
+                </label>
+                
+                <label>
+                    <span>验证码</span>
+                    <input type="text" id="otpCode"/>
+                </label>
+                
+                <label>
+                    <span>年龄</span>
+                    <input type="text" id="age"/>
+                </label>
+               
+                <label>
+                    <span>性别</span>
+                    <input type="text" id="gender"/>
+                </label>
+                
+                <button type="button" class="submit" id="registerUser">注 册</button>
+                <button type="button" class="submit" id="login">登 录</button>
+            </div>
+    </div>
+    <script>
+       $(document).ready(function(){
+        $("#login").click(function(){
+            window.location.href = "file:///C:/Users/Ryan/Desktop/seckill-front/login.html";
+        });
+        $("#registerUser").click(function(){
+            var telphone = $("#telphone").val();
+            var name = $("#name").val();
+            var password = $("#password").val();
+            var otpCode = $("#otpCode").val();
+            var gender = $("#gender").val();
+            var age = $("#age").val();
+            
+            if(telphone==null||telphone==""){
+                alert("手机号不能为空...");
+                return false;
+            };
+            if(telphone.length !=11){
+                alert("请输入有效的手机号...");
+                return false;
+            }
+            if(name==null||name==""){
+                alert("name不能为空...");
+                return false;
+            };
+            if(password==null||password==""){
+                alert("password不能为空...");
+                return false;
+            };
+            if(otpCode==null||otpCode==""){
+                alert("optcode不能为空...");
+                return false;
+            };
+            if(age==null||age==""){
+                alert("age不能为空...");
+                return false;
+            };
+            if(gender==null||gender==""){
+                alert("gender不能为空..."); 
+                return false;
+            };
+           
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                url: "http://localhost:8081/user/register",
+                data:{
+                    "telphone": telphone,
+                    "password": password,
+                    "name": name,
+                    "otpCode": otpCode,
+                    "gender": gender,
+                    "age": age
+                }, xhrFields:{
+                    withCredentials:true
+                },
+                success(data){
+                    if(data.status == "success"){
+                        alert("注册成功...")
+                        window.location.href="file:///C:/Users/Ryan/Desktop/seckill-front/login.html";
+                    }else{
+                        alert("注册失败，原因是："+data.data.errMsg);
+                    }
+                },
+                fail(data){
+                    alert("注册失败，原因是："+data.responseText);
+                }
+            });
+        });
+    }); 
+    </script>
+</body>
+
+</html>

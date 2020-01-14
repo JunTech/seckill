@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.juntech.miaosha.mapper.SeckillDOMapper">
+  <resultMap id="BaseResultMap" type="top.juntech.miaosha.bean.SeckillDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="seckill_name" jdbcType="VARCHAR" property="seckillName" />
+    <result column="start_date" jdbcType="VARCHAR" property="startDate" />
+    <result column="end_date"  jdbcType="VARCHAR" property="endDate" />
+    <result column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="seckill_price" jdbcType="DECIMAL" property="seckillPrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, seckill_name, start_date, item_id, seckill_price,end_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_seckill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getSeckillDOByItemId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_seckill
+    where item_id = #{itemId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_seckill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="top.juntech.miaosha.bean.SeckillDO">
+    insert into tb_seckill (id, seckill_name, start_date, 
+      item_id, seckill_price,end_date)
+    values (#{id,jdbcType=INTEGER}, #{seckillName,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR},
+      #{itemId,jdbcType=INTEGER}, #{seckillPrice,jdbcType=DECIMAL}, #{endDate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="top.juntech.miaosha.bean.SeckillDO">
+    insert into tb_seckill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="seckillName != null">
+        seckill_name,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="seckillPrice != null">
+        seckill_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="seckillName != null">
+        #{seckillName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="seckillPrice != null">
+        #{seckillPrice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.juntech.miaosha.bean.SeckillDO">
+    update tb_seckill
+    <set>
+      <if test="seckillName != null">
+        seckill_name = #{seckillName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="seckillPrice != null">
+        seckill_price = #{seckillPrice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.juntech.miaosha.bean.SeckillDO">
+    update tb_seckill
+    set seckill_name = #{seckillName,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=VARCHAR},
+      end_date = #{endDate,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=INTEGER},
+      seckill_price = #{seckillPrice,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

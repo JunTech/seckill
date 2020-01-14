@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="utf-8">
+<title>登录</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+</head>
+
+<body>
+    <div class="content">
+        <div class="form sign-in">
+            <h2>秒杀seckill登录</h2>
+            <label>
+                <span>手机</span>
+                <input type="text" id="telphone" />
+            </label>
+            <label>
+                <span>密码</span>
+                <input type="password" id="password" />
+            </label>
+            <!-- <p class="forgot-pass"><a href="javascript:">忘记密码？</a></p> -->
+            <button type="button" class="submit" id="login">登 录</button>
+            <button type="button" class="submit" id="register">注册</button>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#register").click(function(){
+                window.location.href = "file:///C:/Users/Ryan/Desktop/seckill-front/register.html";
+            });
+            $("#login").click(function(){
+                var telphone = $("#telphone").val();
+                var password = $("#password").val();
+                if(password==null||password==""){
+                    alert("password不能为空...");
+                    return false;
+                };
+                if(telphone==null||telphone==""){
+                    alert("手机号不能为空...");
+                    return false;
+                };
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded",
+                    url: "http://localhost:8081/user/login",
+                    data:{
+                        "telphone": telphone,
+                        "password": password           
+                    }, xhrFields:{
+                        withCredentials:true
+                    },
+                    success(data){
+                        if(data.status == "success"){
+                            alert("登录成功...")
+                            window.location.href="file:///C:/Users/Ryan/Desktop/seckill-front/listItem.html";
+                        }else{
+                            alert("登录失败，原因是："+data.data.errMsg);
+                        }
+                    },
+                    fail(data){
+                        alert("登录失败，原因是："+data.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
