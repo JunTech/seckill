@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-@Configuration
+
 public class JedisConfig {
     private Logger logger = LoggerFactory.getLogger(JedisConfig.class);
 
