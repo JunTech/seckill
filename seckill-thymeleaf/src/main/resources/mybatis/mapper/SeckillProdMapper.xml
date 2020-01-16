@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.juntech.seckill.mapper.SeckillProdMapper">
+  <resultMap id="BaseResultMap" type="top.juntech.seckill.bean.SeckillProd">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="maiosha_price" jdbcType="DECIMAL" property="maioshaPrice" />
+    <result column="stock_count" jdbcType="INTEGER" property="stockCount" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, goods_id, maiosha_price, stock_count, start_date, end_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_seckill_prod
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_seckill_prod
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="top.juntech.seckill.bean.SeckillProd">
+    insert into tb_seckill_prod (id, goods_id, maiosha_price, 
+      stock_count, start_date, end_date
+      )
+    values (#{id,jdbcType=BIGINT}, #{goodsId,jdbcType=INTEGER}, #{maioshaPrice,jdbcType=DECIMAL}, 
+      #{stockCount,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="top.juntech.seckill.bean.SeckillProd">
+    insert into tb_seckill_prod
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="maioshaPrice != null">
+        maiosha_price,
+      </if>
+      <if test="stockCount != null">
+        stock_count,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="maioshaPrice != null">
+        #{maioshaPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="stockCount != null">
+        #{stockCount,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.juntech.seckill.bean.SeckillProd">
+    update tb_seckill_prod
+    <set>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="maioshaPrice != null">
+        maiosha_price = #{maioshaPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="stockCount != null">
+        stock_count = #{stockCount,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.juntech.seckill.bean.SeckillProd">
+    update tb_seckill_prod
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+      maiosha_price = #{maioshaPrice,jdbcType=DECIMAL},
+      stock_count = #{stockCount,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selctAllSeckillGoods" resultType="top.juntech.seckill.bean.SeckillProd">
+    select * from tb_seckill_prod
+  </select>
+</mapper>
